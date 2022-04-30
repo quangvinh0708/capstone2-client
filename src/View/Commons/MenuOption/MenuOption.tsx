@@ -14,6 +14,7 @@ type Props = {
     stateSelected: any;
     onDelete: any;
     onAdd: any;
+    keywordId?: any;
     id?: any;
 };
 
@@ -22,6 +23,7 @@ export default function MenuOption({
     stateSelected,
     onDelete,
     onAdd,
+    keywordId,
     id,
 }: Props) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -51,7 +53,7 @@ export default function MenuOption({
     };
 
     return (
-        <div style={{ textAlign: `center` }}>
+        <div style={{ textAlign: `center`, marginRight: `5px` }} id={id}>
             <Button
                 // id="demo-positioned-button"
                 aria-controls={open ? "demo-positioned-menu" : undefined}
@@ -64,7 +66,7 @@ export default function MenuOption({
                     position: `relative`,
                     border: `1px solid black`,
                 }}
-                id={id}
+                id={keywordId}
             >
                 {children}
                 {stateSelected.length > 0 &&

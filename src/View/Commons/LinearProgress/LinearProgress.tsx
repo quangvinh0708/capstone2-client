@@ -31,7 +31,7 @@ export default function LinearWithValueLabel() {
             setProgress((prevProgress) =>
                 prevProgress >= 100 ? 10 : prevProgress + 10
             );
-        }, 340);
+        }, 375);
         return () => {
             clearInterval(timer);
         };

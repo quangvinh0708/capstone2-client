@@ -16,7 +16,7 @@ import "react-toastify/dist/ReactToastify.css";
 const Dashboard = () => {
     const classes = useStyles();
 
-    const facet = useSelector((state: IRootState) => state.facetTree.facet);
+    // const facet = useSelector((state: IRootState) => state.facetTree.facet);
     const keywords = useSelector(
         (state: IRootState) => state.keywordTree.keywords
     );
@@ -69,7 +69,10 @@ const Dashboard = () => {
                     // className={style.gradientBorder}
                     className="A1"
                 >
-                    <Tree facet={facet} className={classes.img} />
+                    <Tree
+                        // facet={facet}
+                        className={classes.img}
+                    />
                 </Box>
 
                 <Box

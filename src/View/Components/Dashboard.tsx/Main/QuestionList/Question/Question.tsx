@@ -24,9 +24,15 @@ type Props = {
     suggestQuestion: QuestionType;
     onClickQuestion: Function;
     container: Container;
+    handleDeleteSuggestQuestion: Function;
 };
 
-const Question = ({ suggestQuestion, onClickQuestion, container }: Props) => {
+const Question = ({
+    suggestQuestion,
+    onClickQuestion,
+    container,
+    handleDeleteSuggestQuestion,
+}: Props) => {
     const [open, setOpen] = useState(false);
 
     const handleClick = () => {
@@ -36,7 +42,6 @@ const Question = ({ suggestQuestion, onClickQuestion, container }: Props) => {
     const dispatch = useDispatch();
 
     const handleOpenQuestionProcessingModal = () => {
-        console.log("suggestQuestion", suggestQuestion, container);
         onClickQuestion({ ...suggestQuestion, ...container });
         dispatch(mainTreeHandle.openQuestionProcessingModal.success(true));
     };
@@ -112,6 +117,9 @@ const Question = ({ suggestQuestion, onClickQuestion, container }: Props) => {
                         <ListItemText primary="Handle" />
                     </ListItemButton>
                     <ListItemButton
+                        onClick={() =>
+                            handleDeleteSuggestQuestion(suggestQuestion)
+                        }
                         sx={{
                             pl: 4,
                             "&:hover .deleteforever--icon": {

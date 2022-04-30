@@ -8,6 +8,9 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
 import style from "./style.module.scss";
+import LoadingModal from "../LoadingModal/LoadingModal";
+import { useSelector } from "react-redux";
+import { IRootState } from "../../../Redux/Store/Reducers/combineReducers";
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
@@ -28,6 +31,10 @@ export default function AlertDialogSlide({
     headingTextColor,
     addFacetToFacetCardSuccess,
 }) {
+    const isLoadingForSavingProgress = useSelector(
+        (state: IRootState) => state.mainTreeHandle.isLoadingForSavingProgress
+    );
+
     const handleClickOpen = () => {
         onClickOpenAlertDialogSlide();
     };
@@ -47,6 +54,9 @@ export default function AlertDialogSlide({
                 sx={{ borderRadius: `75px !important` }}
                 className={style.div}
             >
+                {isLoadingForSavingProgress && (
+                    <LoadingModal open={isLoadingForSavingProgress} />
+                )}
                 <DialogTitle sx={{ color: `${headingTextColor}` }}>
                     {headingText}
                 </DialogTitle>

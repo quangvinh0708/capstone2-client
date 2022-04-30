@@ -11,7 +11,11 @@ import { mainTreeHandle } from "./actions";
 import { toast } from "react-toastify";
 import { PayloadAction } from "typesafe-actions";
 import { Container, SuggestQuestions } from "./reducer";
-import { apiGetSuggestQuestion } from "./api";
+import {
+    addSuggestedQuestionToDB,
+    apiDeleteSuggestQuestion,
+    apiGetSuggestQuestion,
+} from "./api";
 import { Facet } from "../../../Config/data";
 
 const handleKeywordTreeSaga = function* () {};
@@ -22,6 +26,17 @@ const addKeywordToKeywordCardSaga = function* ({ payload }) {
     );
     const findKeyword = keywordSelected.find((x) => x.id === payload.id);
     if (findKeyword || keywordSelected.length >= 5) return;
+
+    const keywords = yield select(
+        (state: IRootState) => state.keywordTree.keywords
+    );
+
+    // const x = keywordsSelected.map((keyword) => {
+    //     if (keyword.id === payload.id)
+    // })
+
+    console.log("payload ne mn oi", payload);
+
     yield put(mainTreeHandle.addKeywordSelected.success(payload));
 };
 
@@ -76,7 +91,6 @@ const handleGetSuggestQuestionsSaga = function* ({
     yield delay(3000);
     try {
         const res = yield call(apiGetSuggestQuestion, payload);
-        console.log("res", res, "and payload", payload);
         yield put(
             mainTreeHandle.getSuggestQuestions.success({
                 ...payload,
@@ -191,6 +205,49 @@ const handleAddFacetSelectedSuccess = function* ({
     }
 };
 
+const handleAddSuggestedQuestionToDB = function* ({ payload }) {
+    console.log(payload);
+    delete payload._id;
+    try {
+        yield put(mainTreeHandle.openLoadingForSavingProgress.success(true));
+        yield call(addSuggestedQuestionToDB, {
+            ...payload,
+            point: {
+                pointHigh: Number(payload.point.pointHigh),
+                pointMedium: Number(payload.point.pointMedium),
+                pointLow: Number(payload.point.pointLow),
+            },
+        });
+        yield delay(2000);
+        yield put(mainTreeHandle.setErrorMessage.success("Added Successfully"));
+    } catch (err) {
+        console.log("err", err);
+    }
+};
+
+const handleDeleteSuggestedQuestion = function* ({ payload }) {
+    console.log(payload);
+    try {
+        yield put(mainTreeHandle.openLoadingForSavingProgress.success(true));
+        // const res = yield call(apiDeleteSuggestQuestion, payload._id);
+        yield delay(2000);
+        yield put(
+            mainTreeHandle.setErrorMessage.success("Deleted Successfully")
+        );
+        yield put(
+            mainTreeHandle.deleteSuggestedQuestion.success({
+                _id: payload._id,
+                facet: payload.facet,
+            })
+        );
+        yield put(
+            mainTreeHandle.openDialogForDeletingSuggestedQuestion.success(false)
+        );
+    } catch (err) {
+        console.log("err", err);
+    }
+};
+
 export default function mainTreeHandleSaga() {
     return [
         takeLatest(
@@ -220,6 +277,14 @@ export default function mainTreeHandleSaga() {
         takeLatest(
             mainTreeHandle.addFacetSelected.request,
             handleAddFacetSelected
+        ),
+        takeLatest(
+            mainTreeHandle.addSuggestedQuestionToDB.request,
+            handleAddSuggestedQuestionToDB
+        ),
+        takeLatest(
+            mainTreeHandle.deleteSuggestedQuestion.request,
+            handleDeleteSuggestedQuestion
         ),
         // takeLatest(
         //     mainTreeHandle.addFacetSelected.success,

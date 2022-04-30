@@ -26,6 +26,7 @@ import Question from "./Question/Question";
 import { useStyles } from "./styles";
 import { nanoid } from "nanoid";
 import QuestionProcessingModal from "../../../../Commons/QuestionProcessingModal/QuestionProcessingModal";
+import AlertDialogSlide from "../../../../Commons/AlertDialogSlide/AlertDialogSlide";
 
 type Props = {
     container: Container;
@@ -35,10 +36,14 @@ type Props = {
 export default function QuestionNestedList({ container, id }: Props) {
     const { keyword, facet } = container;
 
+    const openDialogForDeletingSuggestedQuestion = useSelector(
+        (state: IRootState) =>
+            state.mainTreeHandle.openDialogForDeletingSuggestedQuestion
+    );
+
     const classes = useStyles();
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const [currentSelected, setCurrentSelected] = React.useState(null);
 
     const open = Boolean(anchorEl);
 
@@ -83,7 +88,27 @@ export default function QuestionNestedList({ container, id }: Props) {
         dispatch(mainTreeHandle.clearSuggestQuestions.request(container));
     };
 
-   
+    const handleDeleteSuggestQuestion = (question) => {
+        setCurrentSuggestQuestion(question);
+        dispatch(
+            mainTreeHandle.openDialogForDeletingSuggestedQuestion.success(true)
+        );
+    };
+
+    const handleDeleteSuggestQuestionSuccess = () => {
+        dispatch(
+            mainTreeHandle.deleteSuggestedQuestion.request({
+                ...currentSuggestQuestion,
+                facet,
+            })
+        );
+    };
+
+    const handleClickCloseAlertDialogSlide = () => {
+        dispatch(
+            mainTreeHandle.openDialogForDeletingSuggestedQuestion.success(false)
+        );
+    };
 
     return (
         <React.Fragment>
@@ -135,6 +160,9 @@ export default function QuestionNestedList({ container, id }: Props) {
                                     container={container}
                                     key={nanoid()}
                                     onClickQuestion={handleClickQuestion}
+                                    handleDeleteSuggestQuestion={
+                                        handleDeleteSuggestQuestion
+                                    }
                                 />
                             </React.Fragment>
                         );
@@ -195,6 +223,19 @@ export default function QuestionNestedList({ container, id }: Props) {
                     onClickQuestion={handleClickQuestion}
                 />
             )}
+
+            <AlertDialogSlide
+                openDialog={openDialogForDeletingSuggestedQuestion}
+                headingText={"WARNING"}
+                headingTextColor={"#face30"}
+                contentBody={`Do you really want to delete it?`}
+                paragraph={"Click continue to delete this question."}
+                onClickOpenAlertDialogSlide={() => {}}
+                onClickCloseAlertDialogSlide={handleClickCloseAlertDialogSlide}
+                addFacetToFacetCardSuccess={() =>
+                    handleDeleteSuggestQuestionSuccess()
+                }
+            />
         </React.Fragment>
     );
 }

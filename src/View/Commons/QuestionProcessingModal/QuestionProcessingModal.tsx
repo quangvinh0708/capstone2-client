@@ -2,7 +2,6 @@ import * as React from "react";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 // web.cjs is required for IE11 support
 import { useSpring, animated } from "react-spring";
@@ -14,6 +13,10 @@ import BasicSelect from "./../Select/BasicSelect";
 import { BIG5_TRAIT, TraitLevel } from "../../../Utils/trait";
 import { nanoid } from "nanoid";
 import { toast } from "react-toastify";
+import { TextField } from "@mui/material";
+import Button from "@material-ui/core/Button";
+import { useState } from "react";
+import LoadingModal from "../LoadingModal/LoadingModal";
 
 interface FadeProps {
     children?: React.ReactElement;
@@ -72,6 +75,20 @@ export default function QuestionProcessingModal({
             state.mainTreeHandle.isQuestionProcessingModalOpen
     );
 
+    const isLoadingForSavingProgress = useSelector(
+        (state: IRootState) => state.mainTreeHandle.isLoadingForSavingProgress
+    );
+
+    const defaultScore = {
+        pointHigh: 20,
+        pointMedium: 15,
+        pointLow: 10,
+    };
+
+    const [scoreFields, setScoreFields] = useState(defaultScore);
+
+    console.log("scoreFields", scoreFields);
+
     const paramState = [
         {
             Openness:
@@ -107,11 +124,26 @@ export default function QuestionProcessingModal({
 
     const [personalities, setPersonalities] = React.useState<any>(paramState);
 
-    console.log("personality", personalities);
-
     const classes = useStyles();
 
     const dispatch = useDispatch();
+
+    const handleChangeScoreFields = (e) => {
+        if (!isNaN(Number(e.target.value))) {
+            setScoreFields((x) => {
+                return {
+                    ...x,
+                    [e.target.name]: e.target.value,
+                };
+            });
+        } else {
+            setScoreFields((x) => {
+                return {
+                    ...x,
+                };
+            });
+        }
+    };
 
     const handleCloseSuggestQuestionModal = () => {
         setPersonalities(paramState);
@@ -140,8 +172,20 @@ export default function QuestionProcessingModal({
         );
     };
 
-    const handleClose = () =>
+    const handleClose = () => {
         dispatch(mainTreeHandle.openQuestionProcessingModal.success(false));
+        setScoreFields(defaultScore);
+    };
+
+    const handleAddQuestionToDB = () => {
+        dispatch(
+            mainTreeHandle.addSuggestedQuestionToDB.request({
+                ...currentSuggestQuestion,
+                personality: personalities,
+                point: scoreFields,
+            })
+        );
+    };
 
     return (
         <div>
@@ -151,15 +195,33 @@ export default function QuestionProcessingModal({
                     aria-describedby="spring-modal-description"
                     open={open}
                     onClose={handleCloseSuggestQuestionModal}
-                    closeAfterTransition
+                    // closeAfterTransition
                     BackdropComponent={Backdrop}
                     BackdropProps={{
-                        timeout: 200,
+                        timeout: 100,
                     }}
                     className={classes.suggestQuestionModal}
                 >
                     <Fade in={open}>
                         <Box sx={style}>
+                            {isLoadingForSavingProgress && (
+                                <LoadingModal
+                                    open={isLoadingForSavingProgress}
+                                />
+                            )}
+                            <Button
+                                variant="contained"
+                                color="secondary"
+                                style={{
+                                    height: `40px`,
+                                    width: `90px`,
+                                    marginBottom: `15px`,
+                                    // marginTop: `12px`,
+                                }}
+                                onClick={handleCloseSuggestQuestionModal}
+                            >
+                                CLOSE
+                            </Button>
                             <Typography
                                 id="spring-modal-title"
                                 variant="h5"
@@ -174,7 +236,6 @@ export default function QuestionProcessingModal({
                             <Box className={classes.evaluateBox}>
                                 {personalities.map((p) => {
                                     const key = Object.keys(p)[0];
-                                    console.log("key", key);
                                     return (
                                         <Box
                                             className={classes.traitBox}
@@ -200,13 +261,143 @@ export default function QuestionProcessingModal({
                                         </Box>
                                     );
                                 })}
+
+                                <Box
+                                    sx={{
+                                        display: `flex`,
+                                        flexDirection: `column`,
+                                    }}
+                                >
+                                    <TextField
+                                        id="outlined-required"
+                                        label={
+                                            <Typography
+                                                component="p"
+                                                className={classes.traitLabel}
+                                                sx={{
+                                                    fontSize: `18px`,
+                                                    fontWeight: `500`,
+                                                }}
+                                            >
+                                                HIGH
+                                            </Typography>
+                                        }
+                                        name={"pointHigh"}
+                                        value={scoreFields["pointHigh"]}
+                                        // defaultValue={scoreFields[0]}
+                                        sx={{
+                                            width: `150px`,
+                                        }}
+                                        className={classes.scoreField}
+                                        onChange={handleChangeScoreFields}
+                                    />
+                                    <TextField
+                                        id="outlined-required"
+                                        label={
+                                            <Typography
+                                                component="p"
+                                                className={classes.traitLabel}
+                                                sx={{
+                                                    fontSize: `18px`,
+                                                    fontWeight: `500`,
+                                                }}
+                                            >
+                                                MEDIUM
+                                            </Typography>
+                                        }
+                                        // defaultValue={scoreFields[1]}
+                                        name={"pointMedium"}
+                                        value={scoreFields["pointMedium"]}
+                                        sx={{
+                                            width: `150px`,
+                                            marginTop: `15px`,
+                                        }}
+                                        size="medium"
+                                        className={classes.scoreField}
+                                        onChange={handleChangeScoreFields}
+                                    />
+                                    <TextField
+                                        id="outlined-required"
+                                        label={
+                                            <Typography
+                                                component="p"
+                                                className={classes.traitLabel}
+                                                sx={{
+                                                    fontSize: `18px`,
+                                                    fontWeight: `500`,
+                                                }}
+                                            >
+                                                LOW
+                                            </Typography>
+                                        }
+                                        // defaultValue={scoreFields[2]}
+                                        name={"pointLow"}
+                                        value={scoreFields["pointLow"]}
+                                        sx={{
+                                            width: `150px`,
+                                            marginTop: `15px`,
+                                        }}
+                                        className={classes.scoreField}
+                                        onChange={handleChangeScoreFields}
+                                    />
+                                </Box>
                             </Box>
-                            <Typography
-                                id="spring-modal-description"
-                                sx={{ mt: 2 }}
-                            >
-                                {currentSuggestQuestion.question}
-                            </Typography>
+
+                            <Box sx={{ display: `flex`, alignItems: `center` }}>
+                                <Typography
+                                    id="spring-modal-description"
+                                    sx={{
+                                        mt: 2,
+                                    }}
+                                >
+                                    <TextField
+                                        // required
+                                        id="outlined-required"
+                                        label={
+                                            <Typography
+                                                component="p"
+                                                className={classes.traitLabel}
+                                                sx={{
+                                                    fontSize: `18px`,
+                                                    fontWeight: `500`,
+                                                }}
+                                            >
+                                                QUESTION
+                                            </Typography>
+                                        }
+                                        defaultValue={
+                                            currentSuggestQuestion.question
+                                        }
+                                        sx={{
+                                            width: `200px`,
+                                            minWidth: `850px`,
+                                            marginTop: `15px`,
+                                        }}
+                                        size="medium"
+                                        className={classes.scoreField}
+                                    />
+                                </Typography>
+                                <Typography
+                                    id="spring-modal-description"
+                                    sx={{
+                                        mt: 4,
+                                        ml: 4,
+                                    }}
+                                    onClick={handleAddQuestionToDB}
+                                >
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        style={{
+                                            height: `40px`,
+                                            width: `150px`,
+                                            // marginTop: `12px`,
+                                        }}
+                                    >
+                                        Save
+                                    </Button>
+                                </Typography>
+                            </Box>
                         </Box>
                     </Fade>
                 </Modal>

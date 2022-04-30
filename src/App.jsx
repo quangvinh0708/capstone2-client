@@ -18,6 +18,7 @@ import Xarrow from "react-xarrows";
 import QuestionNestedList from "./View/Components/Dashboard.tsx/Main/QuestionList/QuestionList";
 import LinearWithValueLabel from "./View/Commons/LinearProgress/LinearProgress";
 import QuestionProcessingModal from "./View/Commons/QuestionProcessingModal/QuestionProcessingModal";
+import ReactTreeSortable from "./View/Components/Dashboard.tsx/Main/ReactTreeSortable/ReactTreeSortable";
 const boxStyle = {
     border: "1px #999 solid",
     borderRadius: "10px",
@@ -112,7 +113,8 @@ const App = (props) => {
                             path="/t"
                             render={() => (
                                 <div className="App">
-                                    <QuestionProcessingModal />
+                                    <ReactTreeSortable />
+                                    <ReactTreeSortable />
                                 </div>
                             )}
                         />

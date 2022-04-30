@@ -11,12 +11,7 @@ export default function BasicSelect({
     handleChangePersonalityLevel,
     p,
 }) {
-    // const [level, setLevel] = React.useState<TraitLevel>(TraitLevel.HIGH);
-
     const handleChange = (event: SelectChangeEvent) => {
-        console.log("e", event.target.value);
-        // setLevel(event.target.value as TraitLevel);
-        
         handleChangePersonalityLevel(personality, event.target.value);
     };
 

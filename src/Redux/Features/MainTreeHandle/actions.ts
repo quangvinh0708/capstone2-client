@@ -97,4 +97,38 @@ export const mainTreeHandle = {
         "closeQuestionProcessingModal/CLOSE_QUESTION_PROCESSING_MODAL_SUCCESS",
         "closeQuestionProcessingModal/CLOSE_QUESTION_PROCESSING_MODAL_FAILURE"
     )<any, any, Error>(),
+
+    // ------------------- ADD SUGGESTED QUESTION TO DATABASE  ----------------------
+    addSuggestedQuestionToDB: createAsyncAction(
+        "addSuggestedQuestionToDB/ADD_SUGGESTED_QUESTION_TO_DB_REQUEST",
+        "addSuggestedQuestionToDB/ADD_SUGGESTED_QUESTION_TO_DB_SUCCESS",
+        "addSuggestedQuestionToDB/ADD_SUGGESTED_QUESTION_TO_DB_FAILURE"
+    )<any, any, Error>(),
+
+    // ------------------- OPEN LOADING FOR SAVING PROGRESS  ----------------------
+    openLoadingForSavingProgress: createAsyncAction(
+        "openLoadingForSavingProgress/OPEN_LOADING_FOR_SAVING_PROGRESS_REQUEST",
+        "openLoadingForSavingProgress/OPEN_LOADING_FOR_SAVING_PROGRESS_SUCCESS",
+        "openLoadingForSavingProgress/OPEN_LOADING_FOR_SAVING_PROGRESS_FAILURE"
+    )<any, any, Error>(),
+
+    // ------------------- SET ERROR MESSAGE ----------------------
+    setErrorMessage: createAsyncAction(
+        "setErrorMessage/SET_ERROR_MESSAGE_REQUEST",
+        "setErrorMessage/SET_ERROR_MESSAGE_SUCCESS",
+        "setErrorMessage/SET_ERROR_MESSAGE_FAILURE"
+    )<any, any, Error>(),
+
+    // ------------------- DELETE SUGGESTED QUESTION ----------------------
+    deleteSuggestedQuestion: createAsyncAction(
+        "deleteSuggestedQuestion/DELETE_SUGGESTED_QUESTION_REQUEST",
+        "deleteSuggestedQuestion/DELETE_SUGGESTED_QUESTION_SUCCESS",
+        "deleteSuggestedQuestion/DELETE_SUGGESTED_QUESTION_FAILURE"
+    )<any, any, Error>(),
+    // ------------------- DELETE SUGGESTED QUESTION ----------------------
+    openDialogForDeletingSuggestedQuestion: createAsyncAction(
+        "openDialogForDeletingSuggestedQuestion/OPEN_DIALOG_FOR_DELETING_SUGGESTED_QUESTION_REQUEST",
+        "openDialogForDeletingSuggestedQuestion/OPEN_DIALOG_FOR_DELETING_SUGGESTED_QUESTION_SUCCESS",
+        "openDialogForDeletingSuggestedQuestion/OPEN_DIALOG_FOR_DELETING_SUGGESTED_QUESTION_FAILURE"
+    )<any, any, Error>(),
 };

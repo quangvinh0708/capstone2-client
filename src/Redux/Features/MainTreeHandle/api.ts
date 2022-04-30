@@ -12,3 +12,16 @@ export const apiGetSuggestQuestion = async ({ keyword, facet }: Container) => {
         `${BIG5_API_URI}/${SUGGEST_QUESTIONS_END_POINT}?keyword=${keyword.label}&facet=${facet.label}`
     );
 };
+
+export const addSuggestedQuestionToDB = async (body) => {
+    return await big5API.post(
+        `${BIG5_API_URI}/${SUGGEST_QUESTIONS_END_POINT}`,
+        body
+    );
+};
+
+export const apiDeleteSuggestQuestion = async (id) => {
+    return await big5API.delete(
+        `${BIG5_API_URI}/${SUGGEST_QUESTIONS_END_POINT}/${id}`
+    );
+};

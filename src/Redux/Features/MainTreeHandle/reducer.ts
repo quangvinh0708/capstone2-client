@@ -9,6 +9,9 @@ export interface MainTreeHandleState {
     suggestQuestions: SuggestQuestions[];
     openDialog: boolean;
     isQuestionProcessingModalOpen: boolean;
+    isLoadingForSavingProgress: boolean;
+    errorMessage: string;
+    openDialogForDeletingSuggestedQuestion: boolean;
 }
 
 export interface Question {
@@ -40,6 +43,9 @@ const initialState: MainTreeHandleState = {
     suggestQuestions: [],
     openDialog: false,
     isQuestionProcessingModalOpen: false,
+    isLoadingForSavingProgress: false,
+    errorMessage: "",
+    openDialogForDeletingSuggestedQuestion: false,
 };
 
 const mainTreeHandleReducer = () =>
@@ -75,10 +81,11 @@ const mainTreeHandleReducer = () =>
                         return false;
                     } else return true;
                 });
-                console.log("newFacetSelected", newFacetSelected);
                 return {
                     ...state,
                     facetSelected: newFacetSelected,
+                    suggestQuestions: [],
+                    listContainer: [],
                 };
             }
         )
@@ -536,5 +543,109 @@ const mainTreeHandleReducer = () =>
                     ...state,
                 };
             }
+        )
+
+        /* ------------- ADD SUGGESTED QUESTION TO DATABASE ------------- */
+        .handleAction(
+            mainTreeHandle.addSuggestedQuestionToDB.request,
+            (state, _action) => {
+                return {
+                    ...state,
+                };
+            }
+        )
+        .handleAction(
+            mainTreeHandle.addSuggestedQuestionToDB.success,
+            (state, action) => {
+                return {
+                    ...state,
+                    isQuestionProcessingModalOpen: action.payload,
+                };
+            }
+        )
+        .handleAction(
+            mainTreeHandle.addSuggestedQuestionToDB.failure,
+            (state, _action) => {
+                return {
+                    ...state,
+                };
+            }
+        )
+
+        /* ------------- OPEN LOADING FOR SAVING PROGRESS ------------- */
+        .handleAction(
+            mainTreeHandle.openLoadingForSavingProgress.success,
+            (state, action) => {
+                return {
+                    ...state,
+                    isLoadingForSavingProgress: action.payload,
+                    errorMessage: action.payload ? state.errorMessage : "",
+                };
+            }
+        )
+
+        /* ------------- SET ERROR MESSAGE ------------- */
+        .handleAction(
+            mainTreeHandle.setErrorMessage.success,
+            (state, action) => {
+                return {
+                    ...state,
+                    errorMessage: action.payload,
+                };
+            }
+        )
+
+        /* ------------- DELETE SUGGESTED QUESTION ------------- */
+        .handleAction(
+            mainTreeHandle.deleteSuggestedQuestion.request,
+            (state, _action) => {
+                return {
+                    ...state,
+                };
+            }
+        )
+        .handleAction(
+            mainTreeHandle.deleteSuggestedQuestion.success,
+            (state, { payload }) => {
+                const { facet, _id: id } = payload;
+                console.log("ID AND FACET", id, facet);
+
+                const newSuggestQuestions = state.suggestQuestions.map((sq) => {
+                    if (sq.facet.id === facet.id) {
+                        const newQuestions = sq.questions.filter(
+                            (question) => question._id !== id
+                        );
+                        return {
+                            ...sq,
+                            questions: newQuestions,
+                        };
+                    } else return sq;
+                });
+                return {
+                    ...state,
+                    // isLoadingForSavingProgress: false,
+                    suggestQuestions: newSuggestQuestions,
+                };
+            }
+        )
+        .handleAction(
+            mainTreeHandle.deleteSuggestedQuestion.failure,
+            (state, _action) => {
+                return {
+                    ...state,
+                };
+            }
+        )
+
+        /* ------------- OPEN DIALOG FOR DELETING SUGGESTED QUESTION ------------- */
+        .handleAction(
+            mainTreeHandle.openDialogForDeletingSuggestedQuestion.success,
+            (state, action) => {
+                return {
+                    ...state,
+                    openDialogForDeletingSuggestedQuestion: action.payload,
+                };
+            }
         );
-export default mainTreeHandleReducer;
+
+export default mainTreeHandleReducer;   

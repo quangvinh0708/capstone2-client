@@ -12,12 +12,12 @@ import { IRootState } from "../../../../Redux/Store/Reducers/combineReducers";
 
 type Props = {
     className?: string;
-    facet: Facet[];
+    facet?: Facet[];
 };
 
 const Tree = (props: Props) => {
-    const { facet } = props;
-    // const facet = useSelector((state: IRootState) => state.facetTree.facet);
+    // const { facet } = props;
+    const facet = useSelector((state: IRootState) => state.facetTree.facet);
 
     const classes = useStyles();
     const dispatch = useDispatch();

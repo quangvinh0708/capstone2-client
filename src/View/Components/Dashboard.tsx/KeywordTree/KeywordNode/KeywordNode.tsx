@@ -58,8 +58,7 @@ const KeywordNode = ({
                             let x = onDisplaySubKeywordChildrenRecursive(
                                 e,
                                 childKeyword
-                            );
-                            // dispatch(keywordTree.success(x));
+                            );  
                             console.log("X", x);
                         }}
                     >

@@ -112,7 +112,7 @@ export default function Main() {
     const handleConnectFacetAndKeyword = () => {
         return (
             <React.Fragment>
-                {keywordSelected.length && facetSelected.length ? (
+                {/* {keywordSelected.length && facetSelected.length ? (
                     <Xarrow
                         start={idForXarrowBegin}
                         end={idForXarrowEnd}
@@ -135,7 +135,7 @@ export default function Main() {
                         animateDrawing={true}
                         dashness={true}
                     />
-                ) : undefined}
+                ) : undefined} */}
             </React.Fragment>
         );
     };
@@ -151,6 +151,7 @@ export default function Main() {
                 />
                 <KeywordCard
                     className="KC"
+                    start={idForXarrowBegin}
                     id={idForXarrowEnd}
                     keywordSelected={keywordSelected}
                 />
@@ -178,13 +179,15 @@ export default function Main() {
                                                 idForArrowBetweenKeyWordAndContainer
                                             }
                                             path={"grid"}
-                                            showHead={true}
+                                            showHead={false}
                                             // labels="Related"
                                             animateDrawing={true}
                                             strokeWidth={4}
-                                            startAnchor="right"
+                                            // startAnchor="right"
+                                            // endAnchor="top"
+                                            startAnchor="bottom"
                                             endAnchor="top"
-
+                                            zIndex={800}
                                             // dashness={true}
                                         />
                                     </React.Fragment>
