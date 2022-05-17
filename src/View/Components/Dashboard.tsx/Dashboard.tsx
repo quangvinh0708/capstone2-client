@@ -2,14 +2,10 @@ import { Box } from "@mui/material";
 import React, { Fragment, useState } from "react";
 import { useDrop } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
-import { Facet, keywords } from "../../../Config/data";
 import { useStyles } from "./styles";
-import Tree from "./Tree/Tree";
 import { IRootState } from "../../../Redux/Store/Reducers/combineReducers";
 import style from "./Tree/Node/node.module.scss";
 import { SteppedLineTo } from "react-lineto";
-import Main from "./Main/Main";
-import KeywordTree from "./KeywordTree/KeywordTree";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -21,14 +17,6 @@ const Dashboard = () => {
         (state: IRootState) => state.keywordTree.keywords
     );
     const dispatch = useDispatch();
-
-    const [{ isOver }, drop] = useDrop(() => ({
-        accept: "image",
-        drop: (item) => addImageToBoard(item),
-        collect: (monitor) => ({
-            isOver: !!monitor.isOver(),
-        }),
-    }));
 
     const addImageToBoard = (item) => {
         console.log("id picture", item);
@@ -69,10 +57,10 @@ const Dashboard = () => {
                     // className={style.gradientBorder}
                     className="A1"
                 >
-                    <Tree
+                    {/* <Tree
                         // facet={facet}
                         className={classes.img}
-                    />
+                    /> */}
                 </Box>
 
                 <Box
@@ -92,7 +80,7 @@ const Dashboard = () => {
                     }}
                     // className={style.gradientBorder}
                 >
-                    <Main />
+                    {/* <Main /> */}
                 </Box>
 
                 <Box
@@ -107,7 +95,7 @@ const Dashboard = () => {
                     }}
                     className="B1"
                 >
-                    <KeywordTree keywords={keywords} />
+                    {/* <KeywordTree keywords={keywords} /> */}
                 </Box>
                 {/* <SteppedLineTo from={"A1"} to={"B1"} delay={0} /> */}
             </Box>

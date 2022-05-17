@@ -25,6 +25,7 @@ type Props = {
     onClickQuestion: Function;
     container: Container;
     handleDeleteSuggestQuestion: Function;
+    find: any;
 };
 
 const Question = ({
@@ -32,6 +33,7 @@ const Question = ({
     onClickQuestion,
     container,
     handleDeleteSuggestQuestion,
+    find,
 }: Props) => {
     const [open, setOpen] = useState(false);
 
@@ -42,9 +44,15 @@ const Question = ({
     const dispatch = useDispatch();
 
     const handleOpenQuestionProcessingModal = () => {
+        console.log("A find", find);
+        console.log("A suggestQuestion", suggestQuestion);
+
         onClickQuestion({ ...suggestQuestion, ...container });
         dispatch(mainTreeHandle.openQuestionProcessingModal.success(true));
     };
+
+    // console.log("A container", container);
+    // console.log("A QUESTIONNNNNNNNNNNNNNNN", suggestQuestion);
 
     return (
         <Fragment>
@@ -116,22 +124,26 @@ const Question = ({
                         </ListItemIcon>
                         <ListItemText primary="Handle" />
                     </ListItemButton>
-                    <ListItemButton
-                        onClick={() =>
-                            handleDeleteSuggestQuestion(suggestQuestion)
-                        }
-                        sx={{
-                            pl: 4,
-                            "&:hover .deleteforever--icon": {
-                                color: `#6495ED`,
-                            },
-                        }}
-                    >
-                        <ListItemIcon>
-                            <DeleteForeverIcon className="deleteforever--icon" />
-                        </ListItemIcon>
-                        <ListItemText primary="Delete" />
-                    </ListItemButton>
+                    {!(find as any)?.isQuestions ? (
+                        <ListItemButton
+                            onClick={() =>
+                                handleDeleteSuggestQuestion(suggestQuestion)
+                            }
+                            sx={{
+                                pl: 4,
+                                "&:hover .deleteforever--icon": {
+                                    color: `#6495ED`,
+                                },
+                            }}
+                        >
+                            <ListItemIcon>
+                                <DeleteForeverIcon className="deleteforever--icon" />
+                            </ListItemIcon>
+                            <ListItemText primary="Delete" />
+                        </ListItemButton>
+                    ) : (
+                        ""
+                    )}
                 </List>
             </Collapse>
         </Fragment>

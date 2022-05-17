@@ -1,7 +1,9 @@
 import { createAsyncAction } from "typesafe-actions";
 
-export const keywordTree = createAsyncAction(
-    "keywordTree/UPDATE_KEYWORD_TREE_REQUEST",
-    "keywordTree/UPDATE_KEYWORD_TREE_SUCCESS",
-    "keywordTree/UPDATE_KEYWORD_TREE_FAILURE"
-)<any, any, Error>();
+export const keywordTree = {
+    getKeywords: createAsyncAction(
+        "getKeywords/GET_KEYWORDS_REQUEST",
+        "getKeywords/GET_KEYWORDS_SUCCESS",
+        "getKeywords/GET_KEYWORDS_FAILURE"
+    )<any, any, Error>(),
+};

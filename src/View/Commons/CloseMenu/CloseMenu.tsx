@@ -19,6 +19,9 @@ type Props = {
     open: any;
     anchorEl: any;
     onClearSuggestQuestions: any;
+    onGetQuestions: any;
+    onGenerateSuggestQuestions: any;
+    handleCustomQuestion: any;
 };
 
 export default function CloseMenu({
@@ -31,6 +34,9 @@ export default function CloseMenu({
     open,
     anchorEl,
     onClearSuggestQuestions,
+    onGetQuestions,
+    onGenerateSuggestQuestions,
+    handleCustomQuestion,
 }: Props) {
     // const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     // const [currentSelected, setCurrentSelected] = React.useState(null);
@@ -53,9 +59,17 @@ export default function CloseMenu({
         onGetSuggestQuestions();
         onCloseMenu();
     };
+    const handleGetQuestions = () => {
+        onGetQuestions();
+        onCloseMenu();
+    };
 
     const handleClearSuggestQuestions = () => {
         onClearSuggestQuestions();
+        onCloseMenu();
+    };
+    const handleGenerateSuggestQuestions = () => {
+        onGenerateSuggestQuestions();
         onCloseMenu();
     };
 
@@ -76,8 +90,20 @@ export default function CloseMenu({
                     horizontal: "left",
                 }}
             >
+                <MenuItem
+                    onClick={() => {
+                        handleCustomQuestion("");
+                        onCloseMenu();
+                    }}
+                >
+                    Custom Question
+                </MenuItem>
                 <MenuItem onClick={handleGetSuggestQuestions}>
                     Suggest Questions
+                </MenuItem>
+                <MenuItem onClick={handleGetQuestions}>Questions</MenuItem>
+                <MenuItem onClick={handleGenerateSuggestQuestions}>
+                    Generate Questions
                 </MenuItem>
                 <MenuItem onClick={handleClearSuggestQuestions}>
                     Clear Questions

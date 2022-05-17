@@ -44,6 +44,7 @@ export default function LoadingModal({ open }) {
                                 fontSize: `18px`,
                                 fontWeight: `500`,
                                 color: `#6495ED`,
+                                textTransform: "none",
                             }}
                             variant="outlined"
                             onClick={handleClose}

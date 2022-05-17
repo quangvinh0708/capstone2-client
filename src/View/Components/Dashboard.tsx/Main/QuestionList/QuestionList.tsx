@@ -27,7 +27,9 @@ import { useStyles } from "./styles";
 import { nanoid } from "nanoid";
 import QuestionProcessingModal from "../../../../Commons/QuestionProcessingModal/QuestionProcessingModal";
 import AlertDialogSlide from "../../../../Commons/AlertDialogSlide/AlertDialogSlide";
-
+import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
+import { Typography, Button } from "@mui/material";
+import { TraitLevel } from "../../../../../Utils/trait";
 type Props = {
     container: Container;
     id: string;
@@ -51,17 +53,68 @@ export default function QuestionNestedList({ container, id }: Props) {
         (QuestionType & Container) | undefined
     >(undefined);
 
+    let defaultScore = {
+        pointHigh: 20,
+        pointMedium: 15,
+        pointLow: 10,
+    };
+
+    let paramState = [
+        {
+            Openness:
+                currentSuggestQuestion?.facet?.parentTitle === "Openness"
+                    ? TraitLevel.HIGH
+                    : TraitLevel.LOW,
+        },
+        {
+            Conciencetious:
+                currentSuggestQuestion?.facet?.parentTitle === "Conciencetious"
+                    ? TraitLevel.HIGH
+                    : TraitLevel.LOW,
+        },
+        {
+            Extraversion:
+                currentSuggestQuestion?.facet?.parentTitle === "Extraversion"
+                    ? TraitLevel.HIGH
+                    : TraitLevel.LOW,
+        },
+        {
+            Agreeable:
+                currentSuggestQuestion?.facet?.parentTitle === "Agreeable"
+                    ? TraitLevel.HIGH
+                    : TraitLevel.LOW,
+        },
+        {
+            Neuroticism:
+                currentSuggestQuestion?.facet?.parentTitle === "Neuroticism"
+                    ? TraitLevel.HIGH
+                    : TraitLevel.LOW,
+        },
+    ];
+
     const handleClickQuestion = (question) => {
+        console.log("A QUESTIONNNNNNNNNNNNNNNN", question);
         setCurrentSuggestQuestion(question);
     };
+
+    // React.useEffect(() => {
+    //     if (!openDialogForDeletingSuggestedQuestion) {
+    //         dispatch(mainTreeHandle.openQuestionProcessingModal.success(true));
+    //     }
+    // }, [openDialogForDeletingSuggestedQuestion]);
 
     const suggestQuestions = useSelector(
         (state: IRootState) => state.mainTreeHandle.suggestQuestions
     );
 
-    const suggestQuestionsForThisContainer = suggestQuestions.find(
-        (sq) => sq.keyword.id === keyword.id
-    )?.questions;
+    const find = suggestQuestions.find((sq) => sq.keyword.id === keyword.id);
+
+    const suggestQuestionsForThisContainer = find?.questions;
+
+    if ((currentSuggestQuestion as any)?.custom === true && find) {
+        (find as any).isQuestions = false;
+        (find as any).isSuggestedQuestions = true;
+    }
 
     const isLoading = suggestQuestions.find(
         (x) => x.keyword.id === keyword.id
@@ -82,6 +135,9 @@ export default function QuestionNestedList({ container, id }: Props) {
 
     const handleGetSuggestQuestions = () => {
         dispatch(mainTreeHandle.getSuggestQuestions.request(container));
+    };
+    const handleGetQuestions = () => {
+        dispatch(mainTreeHandle.getQuestions.request(container));
     };
 
     const handleClearSuggestQuestions = () => {
@@ -110,20 +166,108 @@ export default function QuestionNestedList({ container, id }: Props) {
         );
     };
 
+    const handleGenerateSuggestQuestions = () => {
+        dispatch(
+            mainTreeHandle.generateSuggestQuestions.request({ keyword, facet })
+        );
+    };
+
+    const handleCustomQuestion = (question: string) => {
+        setCurrentSuggestQuestion((currentSuggestQuestion) => ({
+            question,
+            facet,
+            keyword,
+            big5EnvIndicator: `${keyword.title} ${facet.title}`,
+            id: "",
+            custom: true,
+            // point: defaultScore,
+            // personality: paramState,
+        }));
+        dispatch(mainTreeHandle.openQuestionProcessingModal.success(true));
+    };
+
+    const handleChangeQuestionState = (question: string) => {
+        setCurrentSuggestQuestion(
+            (currentSuggestQuestion) =>
+                ({
+                    ...currentSuggestQuestion,
+                    question,
+                } as any)
+        );
+    };
+
+    console.log("A find", find);
+    console.log("A currentSuggestQuestion", currentSuggestQuestion);
+
     return (
-        <React.Fragment>
+        <div
+            style={{
+                width: "100%",
+                maxWidth: `48%`,
+                marginTop: `30px`,
+                // border: `1px solid black`,
+                borderRadius: `7px`,
+                position: `relative`,
+                marginRight: `15px`,
+                marginBottom: `8px`,
+            }}
+        >
+            {((find as any)?.isQuestions ||
+                (find as any)?.isSuggestedQuestions) && (
+                <Button
+                    variant="contained"
+                    sx={{
+                        position: `absolute`,
+                        left: -16,
+                        top: -25,
+                        zIndex: 1000,
+                        background: `#da5443`,
+                        color: `#FFF`,
+                        // padding: `7px`,
+                        display: `block`,
+                        textTransform: `none`,
+                        "&:hover": {
+                            background: `#da5443`,
+                            // padding: `7px`,
+                        },
+                    }}
+                >
+                    {(find as any)?.isQuestions
+                        ? "Questions"
+                        : (find as any)?.isSuggestedQuestions
+                        ? "Suggested Questions"
+                        : ""}
+                    <div
+                        style={{
+                            borderWidth: `16px`,
+                            borderColor: `transparent #da5443 transparent transparent`,
+                            borderStyle: `solid`,
+                            position: `absolute`,
+                            display: `block`,
+
+                            top: 18,
+                            left: -16,
+                            zIndex: -2,
+                            // padding: `0px 15px`,
+                        }}
+                    ></div>
+                </Button>
+            )}
+
             <List
                 id={id}
                 sx={{
                     width: "100%",
-                    maxWidth: `48%`,
+                    // maxWidth: `48%`,
                     bgcolor: "background.paper",
-                    marginTop: `20px`,
+                    // marginTop: `20px`,
                     border: `1px solid black`,
                     borderRadius: `7px`,
                     position: `relative`,
-                    marginRight: `5px`,
-                    marginBottom: `8px`,
+                    // marginRight: `5px`,
+                    // marginBottom: `8px`,
+
+                    // Symbol CSS
                 }}
                 className={classes.questionList}
                 component="nav"
@@ -133,20 +277,54 @@ export default function QuestionNestedList({ container, id }: Props) {
                         component="div"
                         id="nested-list-subheader"
                         sx={{
+                            // whiteSpace: `nowrap`,
                             textAlign: `center`,
-                            fontWeight: `bold`,
-                            textTransform: `uppercase`,
+                            textTransform: `none`,
                             background: `cornflowerblue`,
+                            lineHeight: `37px !important`,
+                            fontSize: `15px`,
                             color: "#FFFFFF",
                             "&:hover": {
                                 backgroundImage: `linear-gradient(45deg, cornflowerblue 15%, #00d4ff 75%) !important`,
                                 color: `#FFFFFF`,
                             },
                             cursor: `pointer`,
+                            marginTop: `7px`,
                         }}
                         onClick={(e) => handleClick(e)}
                     >
-                        {keyword.label + " -- " + facet.label}
+                        {facet.parentTitle +
+                            " >> " +
+                            facet.title +
+                            " >> " +
+                            keyword.title}
+                        {/* <div
+                            style={{
+                                display: `flex`,
+                                textAlign: `center`,
+                                justifyContent: `center`,
+                            }}
+                        >
+                            <div>{facet.parentTitle + ""}</div>
+                            <div
+                                style={{
+                                    margin: `2.5px 2px 0px 2px`,
+                                }}
+                            >
+                                <DoubleArrowIcon sx={{ fontSize: `14px` }} />
+                            </div>
+
+                            <div>{facet.title + ""}</div>
+                            <div
+                                style={{
+                                    margin: `2.5px 2px 0px 2px`,
+                                }}
+                            >
+                                <DoubleArrowIcon sx={{ fontSize: `14px` }} />
+                            </div>
+
+                            <div>{keyword.title + ""}</div>
+                        </div> */}
                     </ListSubheader>
                 }
             >
@@ -156,6 +334,7 @@ export default function QuestionNestedList({ container, id }: Props) {
                         return (
                             <React.Fragment key={nanoid()}>
                                 <Question
+                                    find={find}
                                     suggestQuestion={sq}
                                     container={container}
                                     key={nanoid()}
@@ -195,23 +374,14 @@ export default function QuestionNestedList({ container, id }: Props) {
                         )}
                     </ListItemButton>
                 )}
-                {/* <ListItemButton>
-                    <ListItemIcon>
-                        <QuizIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Sent mail" />
-                </ListItemButton>
-                <ListItemButton>
-                    <ListItemIcon>
-                        <QuizIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Drafts" />
-                        </ListItemButton> */}
 
                 <CloseMenu
                     onClose={handleCloseContainer}
                     onGetSuggestQuestions={handleGetSuggestQuestions}
+                    onGetQuestions={handleGetQuestions}
                     onClearSuggestQuestions={handleClearSuggestQuestions}
+                    onGenerateSuggestQuestions={handleGenerateSuggestQuestions}
+                    handleCustomQuestion={handleCustomQuestion}
                     onCloseMenu={handleClose}
                     open={open}
                     anchorEl={anchorEl}
@@ -221,6 +391,8 @@ export default function QuestionNestedList({ container, id }: Props) {
                 <QuestionProcessingModal
                     currentSuggestQuestion={currentSuggestQuestion}
                     onClickQuestion={handleClickQuestion}
+                    handleChangeQuestionState={handleChangeQuestionState}
+                    find={find}
                 />
             )}
 
@@ -236,6 +408,6 @@ export default function QuestionNestedList({ container, id }: Props) {
                     handleDeleteSuggestQuestionSuccess()
                 }
             />
-        </React.Fragment>
+        </div>
     );
 }

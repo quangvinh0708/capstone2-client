@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 // import { BrowserRouter as Router, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { app } from "./Redux/Features/App/actions";
@@ -19,6 +19,18 @@ import QuestionNestedList from "./View/Components/Dashboard.tsx/Main/QuestionLis
 import LinearWithValueLabel from "./View/Commons/LinearProgress/LinearProgress";
 import QuestionProcessingModal from "./View/Commons/QuestionProcessingModal/QuestionProcessingModal";
 import ReactTreeSortable from "./View/Components/Dashboard.tsx/Main/ReactTreeSortable/ReactTreeSortable";
+import ReactSortableTree from "./View/Components/Dashboard.tsx/Main/ReactTreeSortable/ReactTreeSortable";
+import Drag from "./View/Components/Dashboard.tsx/Main/ReactTreeSortable/Drag";
+import Drag2 from "./View/Components/Dashboard.tsx/Main/ReactTreeSortable/Drag2";
+import List from "./View/Components/Dashboard.tsx/Main/ReactTreeSortable/List";
+import Tree1 from "./View/Components/Dashboard.tsx/Main/ReactDndTreeView/Tree1";
+import Main1 from "./View/Components/Dashboard.tsx/Main/ReactTreeSortable/Main1/Main1";
+import Tree from "./View/Components/Dashboard.tsx/Main/ReactTreeSortable/Tree";
+import { TestArcher } from "./View/Components/Dashboard.tsx/Main/ReactTreeSortable/Drag3";
+import PrimarySearchAppBar from "./View/Components/AppBar/AppBar";
+import { keywordTree } from "./Redux/Features/KeywordTree/actions";
+import { facetTree } from "./Redux/Features/FacetTree/actions";
+import { useSelector } from "react-redux";
 const boxStyle = {
     border: "1px #999 solid",
     borderRadius: "10px",
@@ -90,8 +102,12 @@ const Test = () => {
 
 const App = (props) => {
     const dispatch = useDispatch();
-    // const { active } = useSelector((state: RootState) => state.app);
     console.log("location", props.location);
+
+    useEffect(() => {
+        dispatch(keywordTree.getKeywords.request());
+        dispatch(facetTree.getFacets.request());
+    }, []);
 
     return (
         <main>
@@ -103,7 +119,8 @@ const App = (props) => {
                             path="/"
                             render={() => (
                                 <div className="App">
-                                    <Dashboard />
+                                    <PrimarySearchAppBar />
+                                    <Main1 />
                                 </div>
                             )}
                         />
@@ -113,8 +130,7 @@ const App = (props) => {
                             path="/t"
                             render={() => (
                                 <div className="App">
-                                    <ReactTreeSortable />
-                                    <ReactTreeSortable />
+                                    <TestArcher />
                                 </div>
                             )}
                         />

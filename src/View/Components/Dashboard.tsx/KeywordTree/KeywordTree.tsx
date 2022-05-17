@@ -1,7 +1,7 @@
 import { nanoid } from "nanoid";
 import React, { Children, Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Keyword } from "../../../../Config/data";
+import { TreeData } from "../../../../Config/data";
 import { addBoxIcon, useStyles } from "./styles";
 import { IRootState } from "./../../../../Redux/Store/Reducers/combineReducers";
 import { Typography } from "@mui/material";
@@ -12,7 +12,7 @@ import { keywordTree } from "../../../../Redux/Features/KeywordTree/actions";
 import LineTo from "react-lineto";
 
 type Props = {
-    keywords: Keyword[];
+    keywords: TreeData[];
 };
 
 const KeywordTree = ({ keywords }: Props) => {

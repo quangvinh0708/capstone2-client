@@ -21,7 +21,7 @@ const Transition = React.forwardRef(function Transition(
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function AlertDialogSlide({
+export default function     AlertDialogSlide({
     openDialog,
     headingText,
     contentBody,
@@ -72,8 +72,13 @@ export default function AlertDialogSlide({
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={addFacetToFacetCardSuccess}>
+                    <Button onClick={handleClose} variant="contained">
+                        Cancel
+                    </Button>
+                    <Button
+                        onClick={addFacetToFacetCardSuccess}
+                        variant="outlined"
+                    >
                         Continue
                     </Button>
                 </DialogActions>
