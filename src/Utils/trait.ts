@@ -1,7 +1,7 @@
 export enum TraitLevel {
     HIGH = "High",
-    MEDIUM = "MEDIUM",
-    LOW = "LOW",
+    MEDIUM = "Medium",
+    LOW = "Low",
 }
 
 export const BIG5_TRAIT = [

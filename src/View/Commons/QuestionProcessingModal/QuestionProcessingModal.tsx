@@ -98,8 +98,9 @@ export default function QuestionProcessingModal({
                     : TraitLevel.LOW,
         },
         {
-            Conciencetious:
-                currentSuggestQuestion?.facet?.parentTitle === "Conciencetious"
+            Conscientiousness:
+                currentSuggestQuestion?.facet?.parentTitle ===
+                "Conscientiousness"
                     ? TraitLevel.HIGH
                     : TraitLevel.LOW,
         },
@@ -135,8 +136,8 @@ export default function QuestionProcessingModal({
                 Openness: currentSuggestQuestion?.personality[0].Openness,
             },
             {
-                Conciencetious:
-                    currentSuggestQuestion?.personality[1].Conciencetious,
+                Conscientiousness:
+                    currentSuggestQuestion?.personality[1].Conscientiousness,
             },
             {
                 Extraversion:

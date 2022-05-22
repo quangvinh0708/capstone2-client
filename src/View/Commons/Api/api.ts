@@ -1,8 +1,8 @@
 import axios, { Axios } from "axios";
 
-// export const BIG5_API_URI = "http://localhost:3009";
-export const BIG5_API_URI =
-    "https://server-greenbig5-application.herokuapp.com";
+export const BIG5_API_URI = "http://localhost:3009";
+// export const BIG5_API_URI =
+//     "https://server-greenbig5-application.herokuapp.com";
 export const SUGGEST_QUESTIONS_END_POINT = "suggest-questions";
 export const QUESTIONS_END_POINT = "questions";
 
