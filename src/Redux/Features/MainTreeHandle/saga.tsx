@@ -836,7 +836,7 @@ const handleAddSuggestedQuestionToDB = function* ({ payload }) {
         yield put(mainTreeHandle.openLoadingForSavingProgress.success(true));
         yield call(addSuggestedQuestionToDB, {
             ...payload,
-            id: payload._id,
+            id: payload._id ? payload._id : "",
             point: {
                 pointHigh: Number(payload.point.pointHigh),
                 pointMedium: Number(payload.point.pointMedium),
@@ -1023,6 +1023,7 @@ const handleGetOutputModelResultSaga = function* ({ payload }) {
         const res = yield call(apiGetOutputModelResult, {
             ...payload,
             key: "MBe2IdLb-9dhasuidad02316156156552352sdggsdgsdaga92345iosfiashfkja",
+            id: undefined,
         });
 
         // yield delay(500);

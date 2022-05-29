@@ -17,7 +17,7 @@ export const useStyles = makeStyles(() => ({
         // marginLeft: `auto`,
         // float: "right",
         marginRight: `-45px`,
-        transform: `scale(0.8, 0.8)`,
+        transform: `scale(0.9, 0.9)`,
     },
     keywordSortableTree: {
         background: ``,

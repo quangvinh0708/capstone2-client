@@ -6,7 +6,7 @@ export const useStyles = makeStyles(() => ({
         minWidth: `60%`,
         margin: `auto`,
         // transform: `scale(1, 1)`,
-        overflow: `scroll`,
+        overflow: `auto !important`,
 
         background: `rgba(255, 255, 255, 0.2)`,
         "&::after": {
@@ -24,7 +24,7 @@ export const useStyles = makeStyles(() => ({
         overflow: `auto`,
     },
     keywordTree: {
-        transform: `scale(0.8, 0.8)`,
+        transform: `scale(0.77, 0.77)`,
         marginLeft: `-47px`,
         position: `relative`,
     },

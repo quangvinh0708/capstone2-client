@@ -300,7 +300,7 @@ export default function PrimarySearchAppBar() {
                             // fontSize: `21px`,
                         }}
                     >
-                        Green BigFive
+                        Green BigFive Dashboard
                     </Typography>
 
                     <Box sx={{ flexGrow: 1 }} />

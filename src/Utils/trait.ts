@@ -8,6 +8,6 @@ export const BIG5_TRAIT = [
     "Openness",
     "Conciencetious",
     "Extraversion",
-    "Agreeable",
+    "Agreeableness",
     "Neuroticism",
 ];

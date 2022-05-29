@@ -103,7 +103,7 @@ const Factory = ({ facetCardDroppableId, keywordCardDroppableId }: Props) => {
         <div
             // sx={{ display: `table`}}
             // id={idForXarrowBegin}
-            style={{ margin: `0 20px` }}
+            style={{ margin: `0 5px` }}
         >
             <FacetCard
                 className="FC"

@@ -79,6 +79,8 @@ const KeywordCard = ({
                                     background:
                                         snapshot.isDraggingOver &&
                                         "linear-gradient(45deg, rgba(100, 149, 237, 0.5), rgba(100, 149, 237, 0.3))",
+                                    maxHeight: `460px`,
+                                    overflowY: "hidden !important",
                                 }}
                                 id={id ? id : ""}
                                 {...provided.droppableProps}

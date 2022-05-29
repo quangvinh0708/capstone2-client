@@ -7,24 +7,26 @@ export const addBoxIcon = {
 
 export const useStyles = makeStyles(() => ({
     facetTree: {
-        padding: 4,
+        // padding: 4,
         // width: 250,
         // minHeight: 400,
-        maxHeight: `100vh`,
+        maxHeight: `90vh`,
+        // transform: `scale(0.9, 0.9)`,
 
         // width: `90px`,
-        maxWidth: `170px`,
-
+        minWidth: `180px`,
+        // flexGrow: 1,
         overflow: `auto`,
     },
 
     keywordTree: {
-        padding: 4,
+        // padding: 4,
         // width: 250,
         // minHeight: 300,
-        maxHeight: `100vh`,
+        maxHeight: `90vh`,
+        // transform: `scale(0.9, 0.9)`,
 
-        maxWidth: `170px`,
+        minWidth: `170px`,
         overflow: `auto`,
         // marginRight: `-7px`,
     },

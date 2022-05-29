@@ -112,7 +112,7 @@ export default function QuestionProcessingModal({
         },
         {
             Agreeable:
-                currentSuggestQuestion?.facet?.parentTitle === "Agreeable"
+                currentSuggestQuestion?.facet?.parentTitle === "Agreeableness"
                     ? TraitLevel.HIGH
                     : TraitLevel.LOW,
         },
@@ -304,7 +304,9 @@ export default function QuestionProcessingModal({
                                                     fontWeight: `500`,
                                                 }}
                                             >
-                                                {key}
+                                                {key === "Agreeable"
+                                                    ? "Agreeableness"
+                                                    : key}
                                             </Typography>
                                             <BasicSelect
                                                 personality={key}
@@ -399,7 +401,8 @@ export default function QuestionProcessingModal({
                             </Box>
 
                             <Box sx={{ display: `flex`, alignItems: `center` }}>
-                                {find?.isSuggestedQuestions ? (
+                                {find?.isSuggestedQuestions ||
+                                currentSuggestQuestion.custom ? (
                                     <React.Fragment>
                                         <Typography
                                             id="spring-modal-description"

@@ -113,7 +113,7 @@ export default function QuestionNestedList({ container, id }: Props) {
 
     if ((currentSuggestQuestion as any)?.custom === true && find) {
         (find as any).isQuestions = false;
-        (find as any).isSuggestedQuestions = true;
+        (find as any).isSuggestedQuestions = false;
     }
 
     const isLoading = suggestQuestions.find(
@@ -174,6 +174,7 @@ export default function QuestionNestedList({ container, id }: Props) {
 
     const handleCustomQuestion = (question: string) => {
         setCurrentSuggestQuestion((currentSuggestQuestion) => ({
+            ...currentSuggestQuestion,
             question,
             facet,
             keyword,

@@ -149,6 +149,7 @@ const KeywordNode = ({
                                     whiteSpace: `nowrap`,
 
                                     ...provided.draggableProps.style,
+                                    transform: `scale(0.88, 0.88)`,
                                 }}
                                 className={cn({
                                     [style.gradientBorder]: snapshot.isDragging,
@@ -171,6 +172,7 @@ const KeywordNode = ({
                                                 ? "8px 5px"
                                                 : "auto",
                                             textAlign: `left`,
+                                            // transform: `scale(0.97, 0.97)`,
                                         }}
                                         className={classes.box}
                                         onClick={(e) => {
@@ -289,6 +291,7 @@ const KeywordNode = ({
                                     fontWeight: `530`,
 
                                     ...provided.draggableProps.style,
+                                    transform: `scale(0.88, 0.88)`,
                                 }}
                                 className={cn({
                                     [style.gradientBorder]: snapshot.isDragging,
@@ -399,6 +402,7 @@ const KeywordNode = ({
                             childKeyword.id === facetSelected[0]?.parentId
                                 ? facetParentColor.convertColor
                                 : "linear-gradient(#FFF, #FFF)",
+                        transform: `scale(0.9, 0.9)`,
                     }}
                 >
                     {childKeyword.children?.length ? (

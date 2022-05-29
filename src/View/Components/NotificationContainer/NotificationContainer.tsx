@@ -25,7 +25,7 @@ export default function NotificationContainer({
     const handleGetOutputModelResult = () => {
         onGetOutputModelResult({
             ...data,
-            questions: notification.questions,
+            question: notification.question,
             id: notification.id,
         });
     };

@@ -93,6 +93,7 @@ const Main1 = (props: Props) => {
                                         // width: `50px`,
                                         marginBottom: `7px`,
                                         backgroundImage: `linear-gradient(45deg, rgba(2, 136, 209, 0.5) 75%, rgba(2, 136, 209, 0.3) 25%)`,
+                                        display: `table`,
                                     }}
                                 >
                                     <Typography
@@ -112,9 +113,10 @@ const Main1 = (props: Props) => {
                                             borderRadius: `5px`,
                                             // fontFamily: `'Noto Sans', sans-serif !important`,
                                             color: `#FFF`,
+                                            width: `100% !important`,
                                         }}
                                     >
-                                        Facet
+                                        BigFive Trait
                                     </Typography>
                                 </Box>
 
@@ -154,10 +156,12 @@ const Main1 = (props: Props) => {
                 <Box
                     sx={{
                         // border: `5px solid #face30`,
-                        minWidth: `1031px`,
+                        minWidth: `75%`,
                         background: `#FFF`,
                         // height: `800px`,
                         minHeight: `300px !important`,
+                        padding: `0px 0px`,
+                        boxSizing: `border-box`,
                     }}
                 >
                     <Factory
@@ -221,7 +225,7 @@ const Main1 = (props: Props) => {
                                             width: `100% !important`,
                                         }}
                                     >
-                                        Keywords
+                                        Env Keywords
                                     </Typography>
                                 </Box>
                                 {keywords.length ? (
